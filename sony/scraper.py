@@ -1,10 +1,9 @@
-import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from sony.schemas import SonyPreview
-from sony.selenium_utils import wait_for_page_load, scroll_page_until_last_page
+from sony.selenium_utils import wait_for_page_load, scroll_page_to_bottom
 
 BASE_URL = 'https://electronics.sony.com'
 
@@ -37,19 +36,15 @@ def picture_parser(driver):
 
 
 def scrape_sony_preview(driver):
-    url = 'https://electronics.sony.com/imaging/interchangeable-lens-cameras/c/all-interchangeable-lens-cameras?currentPage=2'
+    url = 'https://electronics.sony.com/imaging/interchangeable-lens-cameras/c/all-interchangeable-lens-cameras'
     driver.get(url)
     wait_for_page_load(driver)
-    scroll_page_until_last_page(driver)
+    scroll_page_to_bottom(driver)
     wait_for_page_load(driver)
 
     page_source = driver.page_source
     soup = BeautifulSoup(page_source, 'html.parser')
     camera_elements = soup.find_all('li', {'class': 'col-12 col-sm-6 col-md-6 col-lg-4'})
-
-    # camera_elements = WebDriverWait(driver, 10).until(
-    #     EC.presence_of_all_elements_located((By.CLASS_NAME, 'col-12.col-sm-6.col-md-6.col-lg-4'))
-    # )
 
     validated_data = []
 
@@ -59,41 +54,33 @@ def scrape_sony_preview(driver):
             "name": camera.find('p').text.strip() if camera.find('p') else camera.find('a',
                                                                                        class_='custom-product-grid-item__info').text.strip(),
             "price": price_div.text.strip() if price_div else "Not Available",
-            "detailed_url": BASE_URL + camera.find('a', class_='custom-product-grid-item__info')['href']
+            "detailed_link": BASE_URL + camera.find('a', class_='custom-product-grid-item__info')['href']
         }
         print(camera_dict)
-        SonyPreview.parse_obj(camera_dict)  # Ensure this step is necessary for your workflow
+        SonyPreview.parse_obj(camera_dict)
         validated_data.append(camera_dict)
 
     return validated_data
 
-#
-#     camera_dict = {
-#         "name": soup.find('p').text if soup.find('p') else 'Name not found',
-#         "price": price_div.find('span').text if price_div and price_div.find('span') else 'Price not found',
-#         "detailed_link": url
-#     }
-#     SonyPreview.parse_obj(camera_dict)
-#     validated_data.append(camera_dict)
-#
-#     return validated_data
-#
-#
-# def scrape_cameras_specs(urls, driver):
-#     for url in urls:
-#         driver.get(url)
-#         wait_for_page_load(driver)
-#         time.sleep(2)
-#         soup = specs_see_more(driver)
-#         full_specs = soup.find_all('div', class_="full-specifications__specifications-single-card")
-#
-#         result = []
-#         for full_spec in full_specs:
-#             keys = full_spec.find_all('h4', class_='full-specifications__specifications-single-card__sub-list__name')
-#             values = full_spec.find_all('p', class_='full-specifications__specifications-single-card__sub-list__value')
-#             result = [{keys.text.strip(): values.text.strip()}]
-#         return result
-#
+
+def scrape_cameras_specs(url, driver):
+    driver.get(url)
+    wait_for_page_load(driver)
+    soup = specs_see_more(driver)
+    full_specs = soup.find_all('div', class_="full-specifications__specifications-single-card")
+
+    result = []
+    for full_spec in full_specs:
+        keys = full_spec.find_all('h4', class_='full-specifications__specifications-single-card__sub-list__name')
+        values = full_spec.find_all('p', class_='full-specifications__specifications-single-card__sub-list__value')
+        if len(keys) == len(values):
+            for i in range(len(keys)):
+                result.append([{keys[i].text.strip(): values[i].text.strip()}])
+
+
+
+    return result
+
 #
 # def scrape_camera_images():
 #     """  # Get Pictures Through Soup
