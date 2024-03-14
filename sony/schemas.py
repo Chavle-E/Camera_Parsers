@@ -6,7 +6,7 @@ import os
 class SonyPreview(BaseModel):
     name: str
     price: str
-    specs: dict
+    detailed_url: str
 
     def save_json(self):
         file_path = 'sony/results/sony_preview.json'
