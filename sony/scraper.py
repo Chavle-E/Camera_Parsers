@@ -77,8 +77,6 @@ def scrape_cameras_specs(url, driver):
             for i in range(len(keys)):
                 result.append([{keys[i].text.strip(): values[i].text.strip()}])
 
-
-
     return result
 
 #
