@@ -1,3 +1,5 @@
+import time
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -30,9 +32,15 @@ def click_picture(driver, selector):
     WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, selector))).click()
 
 
+def click_exit(driver, selector):
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,
+                                                                selector)))
+
+
 def picture_parser(driver):
-    driver.refresh()
     click_picture(driver, "img[width='8'][height='7']")
+    time.sleep(3)
+    click_exit(driver, '/html/body/app-root/ngb-modal-window/div/div/app-pdp-carousel-fullscreen/app-pdp-carousel-fullscreen-navbar/button[1]/span/cx-icon/svg/use')
 
 
 def scrape_sony_preview(driver):
@@ -80,13 +88,17 @@ def scrape_cameras_specs(url, driver):
     return result
 
 
-def scrape_camera_images():
-    """  # Get Pictures Through Soup
-        picture_div = soup.find_all('div',
-                                    class_="custom-pdp-image__thumb-container custom-pdp-image__thumb-container--image")
-        pic_temp = []
-        for picture in picture_div:
-            pic_src = picture.find('img', alt=True).get('src')
-            pic_temp.append(pic_src)"""
+def scrape_camera_images(url, driver):
+    driver.get(url)
+    wait_for_page_load(driver)
+    picture_parser(driver)
+    page_source = driver.page_source
+    soup = BeautifulSoup(page_source, 'html.parser')
+    picture_div = soup.find_all('div',
+                                class_="custom-pdp-image__thumb-container custom-pdp-image__thumb-container--image")
+    pic_temp = []
+    for picture in picture_div:
+        pic_src = picture.find('img', alt=True).get('src')
+        pic_temp.append(pic_src)
 
-    pass
+    print(pic_temp)
