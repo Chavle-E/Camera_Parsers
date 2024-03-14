@@ -2,8 +2,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
-from sony.schemas import SonyPreview, ImageURLS
-from sony.selenium_utils import wait_for_page_load, scroll_page_to_bottom
+from src.schemas import SonyPreview, ImageURLS
+from src.selenium_utils import wait_for_page_load, scroll_page_to_bottom
 
 BASE_URL = 'https://electronics.sony.com'
 
