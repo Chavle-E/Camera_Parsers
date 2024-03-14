@@ -79,14 +79,14 @@ def scrape_cameras_specs(url, driver):
 
     return result
 
-#
-# def scrape_camera_images():
-#     """  # Get Pictures Through Soup
-#         picture_div = soup.find_all('div',
-#                                     class_="custom-pdp-image__thumb-container custom-pdp-image__thumb-container--image")
-#         pic_temp = []
-#         for picture in picture_div:
-#             pic_src = picture.find('img', alt=True).get('src')
-#             pic_temp.append(pic_src)"""
-#
-#     pass
+
+def scrape_camera_images():
+    """  # Get Pictures Through Soup
+        picture_div = soup.find_all('div',
+                                    class_="custom-pdp-image__thumb-container custom-pdp-image__thumb-container--image")
+        pic_temp = []
+        for picture in picture_div:
+            pic_src = picture.find('img', alt=True).get('src')
+            pic_temp.append(pic_src)"""
+
+    pass
