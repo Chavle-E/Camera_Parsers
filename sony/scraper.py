@@ -1,10 +1,8 @@
-import time
-
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
-from sony.schemas import SonyPreview
+from sony.schemas import SonyPreview, ImageURLS
 from sony.selenium_utils import wait_for_page_load, scroll_page_to_bottom
 
 BASE_URL = 'https://electronics.sony.com'
@@ -18,6 +16,10 @@ def click_view_more(driver, Xpath):
     WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, Xpath))).click()
 
 
+def click_picture(driver, selector):
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, selector))).click()
+
+
 def specs_see_more(driver):
     # Click on the "Specifications" heading to reveal the "See More" button
     click_specifications(driver, "PDPSpecificationsLink")
@@ -28,19 +30,10 @@ def specs_see_more(driver):
     return BeautifulSoup(driver.page_source, 'html.parser')
 
 
-def click_picture(driver, selector):
-    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, selector))).click()
-
-
-def click_exit(driver, selector):
-    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,
-                                                                selector)))
-
-
 def picture_parser(driver):
-    click_picture(driver, "img[width='8'][height='7']")
-    time.sleep(3)
-    click_exit(driver, '/html/body/app-root/ngb-modal-window/div/div/app-pdp-carousel-fullscreen/app-pdp-carousel-fullscreen-navbar/button[1]/span/cx-icon/svg/use')
+    click_picture(driver, "is-initialized")
+
+    return BeautifulSoup(driver.page_source, 'html.parser')
 
 
 def scrape_sony_preview(driver):
@@ -64,7 +57,6 @@ def scrape_sony_preview(driver):
             "price": price_div.text.strip() if price_div else "Not Available",
             "detailed_link": BASE_URL + camera.find('a', class_='custom-product-grid-item__info')['href']
         }
-        print(camera_dict)
         SonyPreview.parse_obj(camera_dict)
         validated_data.append(camera_dict)
 
@@ -91,14 +83,16 @@ def scrape_cameras_specs(url, driver):
 def scrape_camera_images(url, driver):
     driver.get(url)
     wait_for_page_load(driver)
-    picture_parser(driver)
-    page_source = driver.page_source
-    soup = BeautifulSoup(page_source, 'html.parser')
-    picture_div = soup.find_all('div',
-                                class_="custom-pdp-image__thumb-container custom-pdp-image__thumb-container--image")
-    pic_temp = []
-    for picture in picture_div:
-        pic_src = picture.find('img', alt=True).get('src')
-        pic_temp.append(pic_src)
+    soup = picture_parser(driver)
+    picture_divs = soup.find_all('div',
+                                 class_="carousel-slide")
+    image_urls = []
+    for div in picture_divs:
 
-    print(pic_temp)
+        if div.find('app-pdp-carousel-media-element'):
+            img = div.find('img', alt=True)
+            if img and img.has_attr('src'):
+                image_urls.append(img['src'])
+
+    ImageURLS.parse_obj({"images": image_urls})
+    return image_urls

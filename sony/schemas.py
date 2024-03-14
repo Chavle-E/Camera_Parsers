@@ -1,6 +1,5 @@
 from pydantic import BaseModel
-import json
-import os
+from typing import List
 
 
 class SonyPreview(BaseModel):
@@ -9,4 +8,5 @@ class SonyPreview(BaseModel):
     detailed_link: str
 
 
-
+class ImageURLS(BaseModel):
+    images: List[str]

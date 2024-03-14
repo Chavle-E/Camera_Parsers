@@ -1,8 +1,9 @@
+import time
 from selenium import webdriver
 from mongo import sony_collection
 import json
 
-from sony.scraper import scrape_sony_preview, scrape_cameras_specs
+from sony.scraper import scrape_sony_preview, scrape_cameras_specs, scrape_camera_images
 
 driver = webdriver.Chrome()
 driver.maximize_window()
@@ -11,6 +12,7 @@ cameras = []
 cameras_preview = scrape_sony_preview(driver)
 cameras.extend(cameras_preview)
 for camera in cameras:
+    camera['images'] = scrape_camera_images(camera['detailed_link'], driver)
     camera['specs'] = scrape_cameras_specs(camera['detailed_link'], driver)
 driver.quit()
 
