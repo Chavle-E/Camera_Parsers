@@ -1,11 +1,16 @@
-import time
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from mongo import sony_collection
 import json
 
 from sony.scraper import scrape_sony_preview, scrape_cameras_specs, scrape_camera_images
 
-driver = webdriver.Chrome()
+chrome_options = Options()
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--disable-dev-shm-usage")
+
+driver = webdriver.Chrome(options=chrome_options)
 driver.maximize_window()
 
 cameras = []
@@ -17,17 +22,14 @@ for camera in cameras:
 driver.quit()
 
 
-def save_data():
+def save_data(cameras_arg):
     """
-    Saves scraped camera data to MongoDB and a JSON file.
+    Saves scraped camera data to a JSON file.
     """
-    for camera in cameras:
-        with open('sony_cameras.json', 'w') as file:
-            json.dump(camera, file, indent=4)
-            file.write(',\n')
+    for camera_arg in cameras_arg:
+        with open('sony_cameras.json', 'a') as json_file:
+            json.dump(camera_arg, json_file, indent=4)
+            json_file.write(',\n')
 
 
-save_data()
-
-
-
+save_data(cameras)

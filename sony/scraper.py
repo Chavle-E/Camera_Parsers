@@ -47,14 +47,15 @@ def scrape_sony_preview(driver):
     soup = BeautifulSoup(page_source, 'html.parser')
     camera_elements = soup.find_all('li', {'class': 'col-12 col-sm-6 col-md-6 col-lg-4'})
 
+    div_category = soup.find('div', class_='custom-product-list')
     validated_data = []
-
     for camera in camera_elements:
         price_div = camera.find('div', class_="custom-product-grid-item__price")
         camera_dict = {
             "name": camera.find('p').text.strip() if camera.find('p') else camera.find('a',
                                                                                        class_='custom-product-grid-item__info').text.strip(),
             "price": price_div.text.strip() if price_div else "Not Available",
+            "category": div_category.find('span', class_='custom-sort-element__prod-list__bold__non-search').text.strip(),
             "detailed_link": BASE_URL + camera.find('a', class_='custom-product-grid-item__info')['href']
         }
         SonyPreview.parse_obj(camera_dict)
