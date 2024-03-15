@@ -3,37 +3,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from src.schemas import SonyPreview, ImageURLS
-from src.selenium_utils import wait_for_page_load, scroll_page_to_bottom
+from src.selenium_utils import wait_for_page_load, scroll_page_to_bottom, specs_see_more, picture_parser
 
 BASE_URL = 'https://electronics.sony.com'
-
-
-def click_specifications(driver, ID):
-    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, ID))).click()
-
-
-def click_view_more(driver, Xpath):
-    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, Xpath))).click()
-
-
-def click_picture(driver, selector):
-    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, selector))).click()
-
-
-def specs_see_more(driver):
-    # Click on the "Specifications" heading to reveal the "See More" button
-    click_specifications(driver, "PDPSpecificationsLink")
-    # Wait for the "See More" button to become clickable after the click action above
-    click_view_more(driver, "(//button[contains(text(),'See More')])[2]")
-
-    # Return the BeautifulSoup object of the page for parsing
-    return BeautifulSoup(driver.page_source, 'html.parser')
-
-
-def picture_parser(driver):
-    click_picture(driver, "is-initialized")
-
-    return BeautifulSoup(driver.page_source, 'html.parser')
 
 
 def scrape_sony_preview(driver):
