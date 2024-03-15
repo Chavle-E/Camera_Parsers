@@ -76,7 +76,7 @@ def scrape_cameras_specs(url, driver):
         values = full_spec.find_all('p', class_='full-specifications__specifications-single-card__sub-list__value')
         if len(keys) == len(values):
             for i in range(len(keys)):
-                result.append([{keys[i].text.strip(): values[i].text.strip()}])
+                result.append({keys[i].text.strip(): values[i].text.strip()})
 
     return result
 
