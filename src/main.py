@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import json
 
-from src.scraper import scrape_sony_preview, scrape_cameras_specs, scrape_camera_images
+from scraper import scrape_sony_preview, scrape_cameras_specs, scrape_camera_images
 
 chrome_options = Options()
 chrome_options.add_argument("--no-sandbox")
