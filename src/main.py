@@ -3,6 +3,7 @@ from selenium.webdriver.chrome.options import Options
 import json
 
 from scraper import scrape_sony_preview, scrape_cameras_specs, scrape_camera_images
+from chatgpt import generate_description
 
 chrome_options = Options()
 chrome_options.add_argument("--no-sandbox")
@@ -18,6 +19,7 @@ cameras.extend(cameras_preview)
 for camera in cameras:
     camera['images'] = scrape_camera_images(camera['detailed_link'], driver)
     camera['specs'] = scrape_cameras_specs(camera['detailed_link'], driver)
+    camera['description'] = generate_description(camera)
 driver.quit()
 
 
