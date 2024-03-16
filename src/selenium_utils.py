@@ -30,7 +30,6 @@ def scroll_page_to_bottom(driver):
         last_height = new_height
 
 
-
 def click_specifications(driver, ID):
     WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, ID))).click()
 

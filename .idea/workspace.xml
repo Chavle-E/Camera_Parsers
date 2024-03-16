@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91ecdda9-93ea-4ba2-a842-5d46a356d327" name="Changes" comment="Changed syntax a bit" />
+    <list default="true" id="91ecdda9-93ea-4ba2-a842-5d46a356d327" name="Changes" comment="Changed syntax a bit">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/selenium_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/selenium_utils.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,19 +40,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Guga/Documents/GitHub/Camera_Parsers",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "preferences.fileTypes"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Guga/Documents/GitHub/Camera_Parsers&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.fileTypes&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Guga\Documents\GitHub\Camera_Parsers\src" />
@@ -218,7 +221,10 @@
       <workItem from="1710423626776" duration="15369000" />
       <workItem from="1710487556060" duration="800000" />
       <workItem from="1710526417023" duration="629000" />
-      <workItem from="1710530725733" duration="1250000" />
+      <workItem from="1710530725733" duration="3681000" />
+      <workItem from="1710539941864" duration="10000" />
+      <workItem from="1710580142883" duration="4195000" />
+      <workItem from="1710604792486" duration="1082000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1710311064306</created>
@@ -346,7 +352,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/scraper.py</url>
-          <line>47</line>
+          <line>19</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
