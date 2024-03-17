@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+from bs4 import BeautifulSoup
 import time
 
 
@@ -56,3 +57,20 @@ def picture_parser(driver):
     click_picture(driver, "is-initialized")
 
     return BeautifulSoup(driver.page_source, 'html.parser')
+
+
+def remove_duplicates_preserve_order(specs_list):
+    seen_keys = set()
+    deduplicated_result = []
+
+    for spec in specs_list:
+        # Assuming each dictionary has only one key-value pair
+        # Extract the key from the dictionary
+        key = list(spec.keys())[0]
+
+        # If the key has not been seen, preserve this dictionary
+        if key not in seen_keys:
+            deduplicated_result.append(spec)
+            seen_keys.add(key)
+
+    return deduplicated_result
