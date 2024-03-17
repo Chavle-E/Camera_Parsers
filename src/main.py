@@ -3,7 +3,7 @@ from selenium.webdriver.chrome.options import Options
 
 from scraper import scrape_sony_preview, scrape_cameras_specs, scrape_camera_images
 from chatgpt import generate_description
-from utils import save_data, save_unique_specifications
+from utils import save_data
 
 chrome_options = Options()
 chrome_options.add_argument("--no-sandbox")
