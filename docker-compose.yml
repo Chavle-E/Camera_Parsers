@@ -7,6 +7,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: scraper
+    env_file:
+      - .env
     volumes:
       - ./src:/app
     command: python main.py

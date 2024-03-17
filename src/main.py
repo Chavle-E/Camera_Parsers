@@ -1,8 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import json
 
-from src.scraper import scrape_sony_preview, scrape_cameras_specs, scrape_camera_images
+from scraper import scrape_sony_preview, scrape_cameras_specs, scrape_camera_images
+from chatgpt import generate_description
+from utils import save_data
 
 chrome_options = Options()
 chrome_options.add_argument("--no-sandbox")
@@ -18,17 +19,9 @@ cameras.extend(cameras_preview)
 for camera in cameras:
     camera['images'] = scrape_camera_images(camera['detailed_link'], driver)
     camera['specs'] = scrape_cameras_specs(camera['detailed_link'], driver)
+    camera['description'] = generate_description(camera)
+
+
 driver.quit()
-
-
-def save_data(cameras_arg):
-    """
-    Saves scraped camera data to a JSON file.
-    """
-    for camera_arg in cameras_arg:
-        with open('sony_cameras.json', 'a') as json_file:
-            json.dump(camera_arg, json_file, indent=4)
-            json_file.write(',\n')
-
 
 save_data(cameras)
