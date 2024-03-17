@@ -3,7 +3,7 @@ from selenium.webdriver.chrome.options import Options
 
 from scraper import scrape_sony_preview, scrape_cameras_specs, scrape_camera_images
 from chatgpt import generate_description
-from utils import save_data
+from mongo import collection
 
 chrome_options = Options()
 chrome_options.add_argument("--no-sandbox")
@@ -24,4 +24,4 @@ for camera in cameras:
 
 driver.quit()
 
-save_data(cameras)
+collection.insert_many(cameras)

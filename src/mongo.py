@@ -1,8 +1,15 @@
 from pymongo import MongoClient
+import os
 
-client = MongoClient('localhost', 27017)
+MONGO_USERNAME = os.getenv("DATABASE_USERNAME")
+MONGO_PASSWORD = os.getenv("DATABASE_PASSWORD")
+MONGO_HOST = os.getenv("DATABASE_HOST")
+MONGO_PORT = os.getenv("DATABASE_PORT")
 
-db = client['scraper']
+uri = f"mongodb://{MONGO_USERNAME}:{MONGO_PASSWORD}@{MONGO_HOST}:{MONGO_PORT}/"
 
-sony_collection = db['sony']
+client = MongoClient(uri)
 
+db = client['development']
+
+collection = db['cameras']
