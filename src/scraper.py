@@ -1,9 +1,6 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from schemas import SonyPreview, ImageURLS
-from selenium_utils import wait_for_page_load, scroll_page_to_bottom, specs_see_more, picture_parser
+from selenium_utils import wait_for_page_load, scroll_page_to_bottom, specs_see_more, picture_parser, remove_duplicates_preserve_order
 
 BASE_URL = 'https://electronics.sony.com'
 
@@ -50,7 +47,9 @@ def scrape_cameras_specs(url, driver):
             for i in range(len(keys)):
                 result.append({keys[i].text.strip(): values[i].text.strip()})
 
-    return result
+    deduped_result = remove_duplicates_preserve_order(result)
+
+    return deduped_result
 
 
 def scrape_camera_images(url, driver):
