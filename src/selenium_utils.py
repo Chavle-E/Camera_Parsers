@@ -59,18 +59,3 @@ def picture_parser(driver):
     return BeautifulSoup(driver.page_source, 'html.parser')
 
 
-def remove_duplicates_preserve_order(specs_list):
-    seen_keys = set()
-    deduplicated_result = []
-
-    for spec in specs_list:
-        # Assuming each dictionary has only one key-value pair
-        # Extract the key from the dictionary
-        key = list(spec.keys())[0]
-
-        # If the key has not been seen, preserve this dictionary
-        if key not in seen_keys:
-            deduplicated_result.append(spec)
-            seen_keys.add(key)
-
-    return deduplicated_result

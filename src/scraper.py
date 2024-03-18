@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 from schemas import SonyPreview, ImageURLS
-from selenium_utils import wait_for_page_load, scroll_page_to_bottom, specs_see_more, picture_parser, remove_duplicates_preserve_order
+from selenium_utils import wait_for_page_load, scroll_page_to_bottom, specs_see_more, picture_parser
 
 BASE_URL = 'https://electronics.sony.com'
 
@@ -46,10 +46,7 @@ def scrape_cameras_specs(url, driver):
         if len(keys) == len(values):
             for i in range(len(keys)):
                 result[keys[i].text.strip()] = values[i].text.strip()
-
-    deduped_result = remove_duplicates_preserve_order(result)
-
-    return deduped_result
+    return result
 
 
 def scrape_camera_images(url, driver):
