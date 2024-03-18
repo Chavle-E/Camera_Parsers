@@ -17,6 +17,7 @@ cameras = []
 cameras_preview = scrape_sony_preview(driver)
 cameras.extend(cameras_preview)
 for camera in cameras:
+    camera['brand'] = "Sony"
     camera['images'] = scrape_camera_images(camera['detailed_link'], driver)
     camera['specs'] = scrape_cameras_specs(camera['detailed_link'], driver)
     camera['description'] = generate_description(camera)
