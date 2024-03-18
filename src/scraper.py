@@ -39,13 +39,13 @@ def scrape_cameras_specs(url, driver):
     soup = specs_see_more(driver)
     full_specs = soup.find_all('div', class_="full-specifications__specifications-single-card")
 
-    result = []
+    result = {}
     for full_spec in full_specs:
         keys = full_spec.find_all('h4', class_='full-specifications__specifications-single-card__sub-list__name')
         values = full_spec.find_all('p', class_='full-specifications__specifications-single-card__sub-list__value')
         if len(keys) == len(values):
             for i in range(len(keys)):
-                result.append({keys[i].text.strip(): values[i].text.strip()})
+                result[keys[i].text.strip()] = values[i].text.strip()
 
     deduped_result = remove_duplicates_preserve_order(result)
 
